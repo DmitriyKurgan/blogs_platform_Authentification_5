@@ -5,8 +5,8 @@ export const testingController = Router({})
 
 testingController.delete('/', async (req:Request, res: Response) => {
     try {
-        // await blogsCollection.deleteMany({});
-        // await postsCollection.deleteMany({});
+        await blogsCollection.deleteMany({});
+        await postsCollection.deleteMany({});
         res.sendStatus(CodeResponsesEnum.Not_content_204);
     } catch (error) {
         console.error("Error occurred while clearing the database:", error);

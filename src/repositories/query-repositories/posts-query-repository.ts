@@ -17,6 +17,7 @@ export const PostMapper = (post : WithId<PostType>) : OutputPostType => {
 }
 export const postsQueryRepository = {
     async findPostByID(postID:string):Promise<OutputPostType | null> {
+        debugger
         const post: WithId<PostType> | null = await postsCollection.findOne({_id: new ObjectId(postID)});
         return post ? PostMapper(post) : null
     },
