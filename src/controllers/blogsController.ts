@@ -95,7 +95,7 @@ blogsController.put('/:id', validateAuthorization, validateBlogsRequests, valida
     res.status(CodeResponsesEnum.Not_content_204).send(blog);
 });
 
-blogsController.delete('/:id', validateAuthorization, validationBlogsFindByParamId, validateErrorsMiddleware,async (req:Request, res:Response)=>{
+blogsController.delete('/:id', validateAuthorization, validateErrorsMiddleware,async (req:Request, res:Response)=>{
     const blogID:string = req.params.id;
     const isDeleted:boolean = await blogsService.deleteBlog(blogID);
     if (!isDeleted || !blogID){
