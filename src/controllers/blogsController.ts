@@ -15,7 +15,6 @@ import {postsQueryRepository} from "../repositories/query-repositories/posts-que
 export const blogsController = Router({});
 
 blogsController.get('/', async (req:Request, res:Response)=>{
-    debugger
     const queryValues = getQueryValues({
         pageNumber: req.query.pageNumber,
         pageSize: req.query.pageSize,
@@ -85,7 +84,7 @@ blogsController.post('/:id/posts', validateAuthorization, validatePostsRequests,
     }
 });
 
-blogsController.put('/:id', validateAuthorization,validationBlogsFindByParamId, validateBlogsRequests, validateErrorsMiddleware, async (req:Request, res:Response)=>{
+blogsController.put('/:id', validateAuthorization, validateBlogsRequests, validateErrorsMiddleware, async (req:Request, res:Response)=>{
     const blogID = req.params.id;
     const isUpdated:boolean = await blogsService.updateBlog(blogID, req.body);
     if (!isUpdated || !blogID){

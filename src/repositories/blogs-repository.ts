@@ -1,5 +1,5 @@
 import {blogsCollection} from "../repositories/db";
-import {InsertOneResult, ObjectId, WithId, UpdateResult, DeleteResult} from "mongodb";
+import {InsertOneResult, ObjectId, UpdateResult, DeleteResult} from "mongodb";
 import {BLogType, OutputBlogType} from "../utils/types";
 import {BLogMapper} from "./query-repositories/blogs-query-repository";
 export const blogs = [] as BLogType[]
