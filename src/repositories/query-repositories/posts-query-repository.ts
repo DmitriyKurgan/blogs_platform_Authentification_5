@@ -1,6 +1,7 @@
-import {WithId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {OutputPostType, PostType} from "../../utils/types";
 import {getPostsFromDB} from "../../utils/utils";
+import {postsCollection} from "../db";
 
 
 export const PostMapper = (post : WithId<PostType>) : OutputPostType => {
@@ -14,11 +15,15 @@ export const PostMapper = (post : WithId<PostType>) : OutputPostType => {
         createdAt: post.createdAt
     }
 }
-
-export async function getAllPosts(query:any): Promise<any | { error: string }> {
-    return getPostsFromDB(query);
-}
-
-export async function findAllPostsByBlogID(blogID: string, query: any): Promise<any | { error: string }> {
-    return getPostsFromDB(query, blogID)
+export const postsQueryRepository = {
+    async findPostByID(postID:string):Promise<OutputPostType | null> {
+        const post: WithId<PostType> | null = await postsCollection.findOne({_id: new ObjectId(postID)});
+        return post ? PostMapper(post) : null
+    },
+    async getAllPosts(query:any):Promise<any | { error: string }> {
+        return getPostsFromDB(query);
+    },
+    async findAllPostsByBlogID(blogID: string, query:any):Promise<any | { error: string }> {
+        return getPostsFromDB(query, blogID)
+    },
 }

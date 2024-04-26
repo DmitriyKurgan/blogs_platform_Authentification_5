@@ -7,14 +7,20 @@ import {
 import {CodeResponsesEnum, getQueryValues} from "../utils/utils";
 import {posts, postsService} from "../services/posts-service";
 import {OutputBlogType, OutputPostType} from "../utils/types";
-import {blogsService} from "../services/blogs-service";
-import {getAllPosts} from "../repositories/query-repositories/posts-query-repository";
+import {postsQueryRepository} from "../repositories/query-repositories/posts-query-repository";
+import {blogsQueryRepository} from "../repositories/query-repositories/blogs-query-repository";
 
 export const postsController = Router({});
 
 postsController.get('/', async (req:Request, res:Response)=>{
-    const queryValues = getQueryValues(req.query.pageNumber,req.query.pageSize,req.query.sortBy,req.query.sortDirection,req.query.searchTitleTerm)
-    const posts =  await getAllPosts({...queryValues})
+    const queryValues = getQueryValues({
+            pageNumber: req.query.pageNumber,
+        pageSize: req.query.pageSize,
+        sortBy: req.query.sortBy,
+        sortDirection: req.query.sortDirection,
+        searchNameTerm: req.query.searchNameTerm
+    })
+    const posts =  await postsQueryRepository.getAllPosts({...queryValues})
     if (!posts || !posts.items.length) {
         return res.status(CodeResponsesEnum.OK_200).send([]);
     }
@@ -23,7 +29,7 @@ postsController.get('/', async (req:Request, res:Response)=>{
 
 postsController.get('/:id', async (req:Request, res:Response)=>{
     const postID:string = req.params.id;
-    const postByID:OutputPostType|null = await postsService.findPostByID(postID);
+    const postByID:OutputPostType|null = await postsQueryRepository.findPostByID(postID);
     if (!postID || !postByID){
        return res.sendStatus(CodeResponsesEnum.Not_found_404)
     }
@@ -31,7 +37,7 @@ postsController.get('/:id', async (req:Request, res:Response)=>{
 });
 
 postsController.post('/', validateAuthorization, validatePostsRequests,validateBlogIdForPostsRequests, validationPostsCreation, validateErrorsMiddleware, async (req:Request, res:Response)=>{
-    const blog: OutputBlogType | null = await blogsService.findBlogByID(req.body.blogId)
+    const blog: OutputBlogType | null = await blogsQueryRepository.findBlogByID(req.body.blogId)
     if (!blog){
         return res.sendStatus(CodeResponsesEnum.Not_found_404);
     }
@@ -50,7 +56,7 @@ postsController.put('/:id', validateAuthorization, validatePostsRequests,validat
     if (!isUpdated || !postID){
         return res.sendStatus(CodeResponsesEnum.Not_found_404);
     }
-    const postByID = await postsService.findPostByID(postID);
+    const postByID = await postsQueryRepository.findPostByID(postID);
     res.status(CodeResponsesEnum.Not_content_204).send(postByID);
 });
 

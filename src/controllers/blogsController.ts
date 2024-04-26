@@ -9,9 +9,8 @@ import {
     validatePostsRequests, validationBlogsFindByParamId
 } from "../middlewares/middlewares";
 import {posts, postsService} from "../services/posts-service";
-import {findAllPostsByBlogID} from "../repositories/query-repositories/posts-query-repository";
-import {getAllBlogs} from "../repositories/query-repositories/blogs-query-repository";
-import {blogsRepository} from "../repositories/blogs-repository";
+import {blogsQueryRepository} from "../repositories/query-repositories/blogs-query-repository";
+import {postsQueryRepository} from "../repositories/query-repositories/posts-query-repository";
 
 export const blogsController = Router({});
 
@@ -23,7 +22,7 @@ blogsController.get('/', async (req:Request, res:Response)=>{
         sortDirection: req.query.sortDirection,
         searchNameTerm:req.query.searchNameTerm
     })
-    const blogs = await getAllBlogs({...queryValues});
+    const blogs = await blogsQueryRepository.getAllBlogs({...queryValues});
     if(!blogs || !blogs.items.length) {
         return res.status(CodeResponsesEnum.Not_found_404).send([])
     }
@@ -32,7 +31,7 @@ blogsController.get('/', async (req:Request, res:Response)=>{
 
 blogsController.get('/:id', validationBlogsFindByParamId, async (req:Request, res:Response)=>{
     const blogID = req.params.id;
-    const blogByID:OutputBlogType|null = await blogsRepository.findBlogByID(blogID);
+    const blogByID:OutputBlogType|null = await blogsQueryRepository.findBlogByID(blogID);
     if (!blogID || !blogByID){
         return res.sendStatus(CodeResponsesEnum.Not_found_404);
     }
@@ -41,7 +40,7 @@ blogsController.get('/:id', validationBlogsFindByParamId, async (req:Request, re
 
 blogsController.get('/:id/posts', async (req:Request, res:Response)=>{
      const blogID = req.params.id;
-     const blogByID:OutputBlogType|null = await blogsRepository.findBlogByID(blogID);
+     const blogByID:OutputBlogType|null = await blogsQueryRepository.findBlogByID(blogID);
      if(!blogID || !blogByID){
         return res.sendStatus(CodeResponsesEnum.Not_found_404);
      }
@@ -54,7 +53,7 @@ blogsController.get('/:id/posts', async (req:Request, res:Response)=>{
         searchNameTerm:req.query.searchNameTerm
     })
 
-    const posts = await findAllPostsByBlogID(blogID, {...queryValues});
+    const posts = await postsQueryRepository.findAllPostsByBlogID(blogID, {...queryValues});
 
     if (!posts || !posts.items.length) {
         return res.status(CodeResponsesEnum.OK_200).send([]);
@@ -73,7 +72,7 @@ blogsController.post('/', validateAuthorization, validateBlogsRequests, validate
 
 blogsController.post('/:id/posts', validateAuthorization, validatePostsRequests,validateErrorsMiddleware, async (req:Request, res:Response)=>{
     const blogID = req.params.id;
-    const blogByID:OutputBlogType|null = await blogsRepository.findBlogByID(blogID);
+    const blogByID:OutputBlogType|null = await blogsQueryRepository.findBlogByID(blogID);
     if(!blogID || !blogByID){
         res.sendStatus(CodeResponsesEnum.Not_found_404);
         return
@@ -92,7 +91,7 @@ blogsController.put('/:id', validateAuthorization,validationBlogsFindByParamId, 
         res.sendStatus(CodeResponsesEnum.Not_found_404);
 
     }
-    const blog = await blogsRepository.findBlogByID(blogID);
+    const blog = await blogsQueryRepository.findBlogByID(blogID);
     res.status(CodeResponsesEnum.Not_content_204).send(blog);
 });
 

@@ -1,6 +1,7 @@
 import {BLogType, OutputBlogType} from "../../utils/types";
-import {WithId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {getBlogsFromDB} from "../../utils/utils";
+import {blogsCollection} from "../db";
 
 
 export const BLogMapper = (blog : WithId<BLogType>) : OutputBlogType => {
@@ -14,6 +15,13 @@ export const BLogMapper = (blog : WithId<BLogType>) : OutputBlogType => {
     }
 }
 
-export async function getAllBlogs(query: any): Promise<any | { error: string }> {
-    return getBlogsFromDB(query);
+
+export const blogsQueryRepository = {
+    async findBlogByID(blogID:string):Promise<OutputBlogType | null> {
+        const blog: WithId<BLogType> | null = await blogsCollection.findOne({_id: new ObjectId(blogID)});
+        return blog ? BLogMapper(blog) : null
+    },
+    async getAllBlogs(query:any):Promise<any | { error: string }> {
+        return getBlogsFromDB(query);
+    },
 }
