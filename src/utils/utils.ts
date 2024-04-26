@@ -75,9 +75,9 @@ export const getPostsFromDB = async (query:any, blogID?:string) => {
     }
 }
 
-export const getBlogsFromDB = async (query:any) => {
-    const search = query.searchEmailTerm
-        ? { email: { $regex: query.searchEmailTerm, $options: 'i' } }
+export const getBlogsFromBD = async (query:any) => {
+    const search = query.searchNameTerm
+        ? { name: { $regex: query.searchNameTerm, $options: 'i' } }
         : {};
     const filter = {
         ...search,

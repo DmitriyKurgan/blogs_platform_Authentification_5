@@ -28,7 +28,6 @@ postsController.get('/', async (req:Request, res:Response)=>{
 });
 
 postsController.get('/:id', async (req:Request, res:Response)=>{
-    debugger
     const postID:string = req.params.id;
     const postByID:OutputPostType|null = await postsQueryRepository.findPostByID(postID);
     if (!postID || !postByID){

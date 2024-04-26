@@ -15,6 +15,7 @@ import {postsQueryRepository} from "../repositories/query-repositories/posts-que
 export const blogsController = Router({});
 
 blogsController.get('/', async (req:Request, res:Response)=>{
+    debugger
     const queryValues = getQueryValues({
         pageNumber: req.query.pageNumber,
         pageSize: req.query.pageSize,
