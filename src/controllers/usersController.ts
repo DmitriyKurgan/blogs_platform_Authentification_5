@@ -1,12 +1,12 @@
 import {Request, Response, Router} from "express";
 import {CodeResponsesEnum, getQueryValues} from "../utils/utils";
-import {OutputUserType} from "../utils/types";
 import {
     validateAuthorization, validateDeleteUserByParamId,
     validateErrorsMiddleware, validateUsersRequests,
 } from "../middlewares/middlewares";
-import {getAllUsers} from "../repositories/query-repositories/users-query-repository";
 import {users, usersService} from "../services/users-service";
+import {usersQueryRepository} from "../repositories/query-repositories/users-query-repository";
+import {UserDBType} from "../utils/types";
 
 export const usersController = Router({});
 
@@ -18,7 +18,7 @@ usersController.get('/', validateAuthorization, validateErrorsMiddleware, async 
         sortDirection:req.query.sortDirection,
         searchNameTerm:req.query.searchLoginTerm,
         searchEmailTerm:req.query.searchEmailTerm});
-    const users = await getAllUsers({...queryValues});
+    const users = await usersQueryRepository.getAllUsers({...queryValues});
     if (!users || !users.items.length) {
         return res.status(CodeResponsesEnum.Not_found_404).send([])
     }
@@ -27,7 +27,7 @@ usersController.get('/', validateAuthorization, validateErrorsMiddleware, async 
 
 
 usersController.post('/', validateAuthorization, validateUsersRequests, validateErrorsMiddleware, async (req: Request, res: Response) => {
-    const newUser: OutputUserType | null = await usersService.createUser(req.body);
+    const newUser: UserDBType = await usersService.createUser(req.body.login, req.body.email, req.body.password);
     if (newUser) {
         users.push(newUser);
         res.status(CodeResponsesEnum.Created_201).send(newUser);

@@ -1,3 +1,5 @@
+import {ObjectId} from "mongodb";
+
 export type BLogType = {
     name: string
     description: string
@@ -22,6 +24,15 @@ export type OutputPostType = PostType & {id:string}
 export type UserType = {
     login: string
     email: string
+    createdAt: Date | string
+}
+
+export type UserDBType = {
+    _id: ObjectId
+    login: string
+    email: string
+    passwordSalt: string
+    passwordHash: string
     createdAt: Date | string
 }
 
