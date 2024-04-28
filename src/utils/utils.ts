@@ -131,7 +131,7 @@ export const getUsersFromDB = async (query:any) => {
             page: query.pageNumber,
             pageSize: query.pageSize,
             totalCount,
-            items: items.map((user:WithId<UserType>) => UserMapper(user)),
+            items: items.map((user:WithId<UserType>) => UserMapper(user as any)),
         };
     } catch (e) {
         console.log(e);
