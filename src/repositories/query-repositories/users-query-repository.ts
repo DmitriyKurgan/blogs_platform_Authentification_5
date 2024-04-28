@@ -1,9 +1,9 @@
-import {OutputUserType, UserType} from "../../utils/types";
-import {WithId} from "mongodb";
+import {OutputUserType, UserDBType, UserType} from "../../utils/types";
+import { WithId} from "mongodb";
 import {getUsersFromDB} from "../../utils/utils";
 import {usersCollection} from "../db";
 
-export const UserMapper = (user : WithId<UserType>) : OutputUserType => {
+export const UserMapper = (user : WithId<UserDBType>) : OutputUserType => {
     return {
         id: user._id.toString(),
         login: user.login,
@@ -11,7 +11,6 @@ export const UserMapper = (user : WithId<UserType>) : OutputUserType => {
         createdAt: user.createdAt
     }
 }
-
 
 
 export const usersQueryRepository = {

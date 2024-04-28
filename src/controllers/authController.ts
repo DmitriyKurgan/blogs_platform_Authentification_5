@@ -6,7 +6,6 @@ import {validateAuthorization, validateAuthRequests, validateErrorsMiddleware} f
 export const authController = Router({});
 
 authController.post('/login', validateAuthorization, validateAuthRequests, validateErrorsMiddleware, async (req: Request, res: Response) => {
-      debugger
       const checkResult = await usersService.checkCredentials(req.body.loginOrEmail, req.body.password)
       if (checkResult){
         res.status(CodeResponsesEnum.Not_content_204)

@@ -6,7 +6,7 @@ import {
 } from "../middlewares/middlewares";
 import {users, usersService} from "../services/users-service";
 import {usersQueryRepository} from "../repositories/query-repositories/users-query-repository";
-import {UserDBType} from "../utils/types";
+import {OutputUserType, UserDBType, UserType} from "../utils/types";
 
 export const usersController = Router({});
 
@@ -27,7 +27,13 @@ usersController.get('/', validateAuthorization, validateErrorsMiddleware, async 
 
 
 usersController.post('/', validateAuthorization, validateUsersRequests, validateErrorsMiddleware, async (req: Request, res: Response) => {
-    const newUser: UserDBType = await usersService.createUser(req.body.login, req.body.email, req.body.password);
+    // const newUser: UserDBType = await usersService.createUser(req.body.login, req.body.email, req.body.password);
+    // if (newUser) {
+    //     users.push(newUser);
+    //     res.status(CodeResponsesEnum.Created_201).send(newUser);
+    // }
+    debugger
+    const newUser: OutputUserType | null = await usersService.createUser(req.body.login, req.body.email, req.body.password);
     if (newUser) {
         users.push(newUser);
         res.status(CodeResponsesEnum.Created_201).send(newUser);
