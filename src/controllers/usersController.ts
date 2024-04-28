@@ -11,18 +11,15 @@ import {OutputUserType, UserDBType, UserType} from "../utils/types";
 export const usersController = Router({});
 
 usersController.get('/', validateAuthorization, validateErrorsMiddleware, async (req: Request, res: Response) => {
-   debugger
+    debugger
     const queryValues = getQueryValues({
         pageNumber:req.query.pageNumber,
         pageSize:req.query.pageSize,
         sortBy:req.query.sortBy,
         sortDirection:req.query.sortDirection,
-        searchNameTerm:req.query.searchLoginTerm,
+        searchLoginTerm:req.query.searchLoginTerm,
         searchEmailTerm:req.query.searchEmailTerm});
     const users = await usersQueryRepository.getAllUsers({...queryValues});
-    // if (!users || !users.items.length) {
-    //     return res.status(CodeResponsesEnum.Not_found_404).send([])
-    // }
     res.status(CodeResponsesEnum.OK_200).send(users)
 })
 
