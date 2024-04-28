@@ -134,6 +134,20 @@ export const validateUsersRequests = [
         .withMessage("Email must be in correct format")
 ];
 
+export const validateAuthRequests = [
+    body("loginOrEmail")
+        .exists()
+        .withMessage("LoginOrEmail is required")
+        .isString()
+        .withMessage("Type of LoginOrEmail must be string")
+        .trim(),
+    body("password")
+        .exists()
+        .withMessage("Password is required")
+        .isString()
+        .trim()
+];
+
 export const validateBlogIdForPostsRequests = [
     body("blogId")
         .exists()
