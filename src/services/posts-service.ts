@@ -3,9 +3,6 @@ import {postsRepository} from "../repositories/posts-repository";
 export const posts = [] as PostType[]
 
 export const postsService: PostsServiceType = {
-    async findPostByID(postID:string):Promise<OutputPostType | null> {
-        return await postsRepository.findPostByID(postID);
-    },
    async createPost(body:PostType, blogName:string,blogID:string):Promise<OutputPostType | null> {
         const newPost:PostType = {
             title: body.title,

@@ -11,7 +11,7 @@ export const usersService:any = {
 
         const passwordSalt = await bcrypt.genSalt(10);
         const passwordHash = await this._generateHash(password, passwordSalt)
-
+        console.log('PASSWORDHASH: ', passwordHash)
         const newUser:UserDBType = {
             _id: new ObjectId(),
             login,
@@ -33,6 +33,7 @@ export const usersService:any = {
         }
         const passwordHash = await this._generateHash(password, user.passwordSalt);
 
+        console.log('PASSWORDHASH: ', passwordHash)
         return user.passwordHash === passwordHash;
 
     },
