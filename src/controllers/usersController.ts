@@ -11,6 +11,7 @@ import {OutputUserType, UserDBType, UserType} from "../utils/types";
 export const usersController = Router({});
 
 usersController.get('/', validateAuthorization, validateErrorsMiddleware, async (req: Request, res: Response) => {
+   debugger
     const queryValues = getQueryValues({
         pageNumber:req.query.pageNumber,
         pageSize:req.query.pageSize,
@@ -19,20 +20,14 @@ usersController.get('/', validateAuthorization, validateErrorsMiddleware, async 
         searchNameTerm:req.query.searchLoginTerm,
         searchEmailTerm:req.query.searchEmailTerm});
     const users = await usersQueryRepository.getAllUsers({...queryValues});
-    if (!users || !users.items.length) {
-        return res.status(CodeResponsesEnum.Not_found_404).send([])
-    }
+    // if (!users || !users.items.length) {
+    //     return res.status(CodeResponsesEnum.Not_found_404).send([])
+    // }
     res.status(CodeResponsesEnum.OK_200).send(users)
 })
 
 
 usersController.post('/', validateAuthorization, validateUsersRequests, validateErrorsMiddleware, async (req: Request, res: Response) => {
-    // const newUser: UserDBType = await usersService.createUser(req.body.login, req.body.email, req.body.password);
-    // if (newUser) {
-    //     users.push(newUser);
-    //     res.status(CodeResponsesEnum.Created_201).send(newUser);
-    // }
-    debugger
     const newUser: OutputUserType | null = await usersService.createUser(req.body.login, req.body.email, req.body.password);
     if (newUser) {
         users.push(newUser as any);
