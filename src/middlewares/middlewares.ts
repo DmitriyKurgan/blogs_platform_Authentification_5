@@ -106,10 +106,10 @@ export const validateUsersRequests = [
         .withMessage("Login must be in correct format")
         .isLength({
             min: 3,
-            max: 30,
+            max: 10,
         })
         .withMessage(
-            "Login length must be more than 2 and less than or equal to 30 symbols"
+            "Login length must be more than 2 and less than or equal to 10 symbols"
         ),
     body("password")
         .exists()
@@ -122,7 +122,7 @@ export const validateUsersRequests = [
             max: 20,
         })
         .withMessage(
-            "Short description length must be more than 0 and less than or equal to 100 symbols"
+            "Password length must be more than 0 and less than or equal to 100 symbols"
         ),
     body("email")
         .exists()

@@ -35,7 +35,7 @@ usersController.post('/', validateAuthorization, validateUsersRequests, validate
     debugger
     const newUser: OutputUserType | null = await usersService.createUser(req.body.login, req.body.email, req.body.password);
     if (newUser) {
-        users.push(newUser);
+        users.push(newUser as any);
         res.status(CodeResponsesEnum.Created_201).send(newUser);
     }
 });
