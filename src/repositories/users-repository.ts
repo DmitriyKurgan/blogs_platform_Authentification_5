@@ -10,7 +10,6 @@ export const usersRepository = {
         const user = await usersCollection.findOne({_id: result.insertedId});
         debugger
         return user ? UserMapper(user as any) : null;
-        // return user ?? null;
     },
    async deleteUser(userID:string): Promise<boolean>{
         const result: DeleteResult = await usersCollection.deleteOne({_id:new ObjectId(userID)});
