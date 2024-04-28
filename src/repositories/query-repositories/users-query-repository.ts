@@ -1,5 +1,5 @@
 import {OutputUserType, UserDBType, UserType} from "../../utils/types";
-import { WithId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {getUsersFromDB} from "../../utils/utils";
 import {usersCollection} from "../db";
 
@@ -20,5 +20,9 @@ export const usersQueryRepository = {
     async findByLoginOrEmail(loginOrEmail:string){
         const user = await usersCollection.findOne({$or: [{login:loginOrEmail}, {email:loginOrEmail}]})
         return user
-}
+},
+    async findUserByID(userID:string){
+        const user = await usersCollection.findOne({_id: new ObjectId(userID)})
+        return user
+    }
 }

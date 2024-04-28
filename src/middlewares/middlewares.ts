@@ -3,6 +3,7 @@ import {body, param, ValidationError, validationResult} from 'express-validator'
 import {blogsRepository} from "../repositories/blogs-repository";
 import {usersRepository} from "../repositories/users-repository";
 import {blogsQueryRepository} from "../repositories/query-repositories/blogs-query-repository";
+import {usersQueryRepository} from "../repositories/query-repositories/users-query-repository";
 const websiteUrlPattern =
     /^https:\/\/([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$/;
 const loginPattern =
@@ -168,7 +169,7 @@ export const validationBlogsFindByParamId = param("id").custom(
 
 export const validateDeleteUserByParamId = param("id").custom(
     async (value) => {
-        const result = await usersRepository.deleteUser(value);
+        const result = await usersQueryRepository.findUserByID(value);
         if (!result) {
             throw new Error("ID not found");
         }

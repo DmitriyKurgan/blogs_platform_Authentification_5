@@ -85,7 +85,6 @@ blogsController.post('/:id/posts', validateAuthorization, validatePostsRequests,
 });
 
 blogsController.put('/:id', validateAuthorization, validationBlogsFindByParamId, validateBlogsRequests, validateErrorsMiddleware, async (req:Request, res:Response)=>{
-    debugger
     const blogID = req.params.id;
     const isUpdated:boolean = await blogsService.updateBlog(blogID, req.body);
     if (!isUpdated || !blogID){

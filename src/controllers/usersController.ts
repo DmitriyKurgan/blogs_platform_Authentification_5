@@ -11,7 +11,6 @@ import {OutputUserType, UserDBType, UserType} from "../utils/types";
 export const usersController = Router({});
 
 usersController.get('/', validateAuthorization, validateErrorsMiddleware, async (req: Request, res: Response) => {
-    debugger
     const queryValues = getQueryValues({
         pageNumber:req.query.pageNumber,
         pageSize:req.query.pageSize,

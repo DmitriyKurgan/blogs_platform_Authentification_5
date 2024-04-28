@@ -20,9 +20,7 @@ export const usersService:any = {
             passwordHash,
             createdAt: new Date()
         }
-        //const createdUser:OutputUserType | null = await usersRepository.createUser(newUser);
         const createdUser = await usersRepository.createUser(newUser);
-        debugger
         return createdUser;
     },
    async deleteUser(userID:string): Promise<boolean>{

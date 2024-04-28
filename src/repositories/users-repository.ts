@@ -8,7 +8,6 @@ export const usersRepository = {
     async createUser(newUser:UserDBType):Promise<OutputUserType | null> {
         const result:InsertOneResult<any> = await usersCollection.insertOne(newUser);
         const user = await usersCollection.findOne({_id: result.insertedId});
-        debugger
         return user ? UserMapper(user as any) : null;
     },
    async deleteUser(userID:string): Promise<boolean>{
