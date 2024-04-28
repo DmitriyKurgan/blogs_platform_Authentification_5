@@ -1,4 +1,4 @@
-import { UserDBType} from "../utils/types";
+import {OutputUserType, UserDBType} from "../utils/types";
 import {usersRepository} from "../repositories/users-repository";
 import bcrypt from 'bcrypt'
 import {ObjectId} from "mongodb";
@@ -7,7 +7,7 @@ export const users = [] as UserDBType[]
 
 export const usersService:any = {
 
-    async createUser(login:string, email:string, password:string):Promise<UserDBType | null> {
+    async createUser(login:string, email:string, password:string):Promise<OutputUserType | null> {
 
         const passwordSalt = await bcrypt.genSalt(10);
         const passwordHash = await this._generateHash(password, passwordSalt)
