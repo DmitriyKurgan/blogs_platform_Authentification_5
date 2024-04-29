@@ -1,7 +1,7 @@
 import {OutputUserType, UserDBType} from "../utils/types";
 import {usersRepository} from "../repositories/users-repository";
 import bcrypt from 'bcrypt'
-import {ObjectId} from "mongodb";
+import {ObjectId, WithId} from "mongodb";
 import {usersQueryRepository} from "../repositories/query-repositories/users-query-repository";
 export const users = [] as OutputUserType[]
 
@@ -27,7 +27,7 @@ export const usersService:any = {
        return await usersRepository.deleteUser(userID);
     },
     async checkCredentials(loginOrEmail:string, password:string):Promise<boolean>{
-        const user:any = await usersQueryRepository.findByLoginOrEmail(loginOrEmail);
+        const user:WithId<UserDBType> | null = await usersQueryRepository.findByLoginOrEmail(loginOrEmail);
         if (!user){
             return false
         }
