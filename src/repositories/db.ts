@@ -1,6 +1,6 @@
 import { MongoClient } from 'mongodb';
 import dotenv from 'dotenv'
-import {BLogType, PostType, UserType} from "../utils/types";
+import {BLogType, PostType, UserDBType, UserType} from "../utils/types";
 dotenv.config()
 
 const mongoURI = process.env.MONGO_URL || "mongodb+srv://dimakurgan123789:annogolik123789@blogsplatform.mxifx0s.mongodb.net/?retryWrites=true&w=majority&appName=BlogsPlatform"
@@ -10,7 +10,7 @@ if (!mongoURI){
 export const client = new MongoClient(mongoURI);
 export const blogsCollection =  client.db('learning').collection<BLogType>('blogs')
 export const postsCollection =  client.db('learning').collection<PostType>('posts')
-export const usersCollection =  client.db('learning').collection<UserType>('users')
+export const usersCollection =  client.db('learning').collection<UserDBType>('users')
 export async function runDB (){
     try {
         await client.connect();
