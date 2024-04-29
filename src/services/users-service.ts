@@ -3,7 +3,7 @@ import {usersRepository} from "../repositories/users-repository";
 import bcrypt from 'bcrypt'
 import {ObjectId} from "mongodb";
 import {usersQueryRepository} from "../repositories/query-repositories/users-query-repository";
-export const users = [] as UserDBType[]
+export const users = [] as OutputUserType[]
 
 export const usersService:any = {
 

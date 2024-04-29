@@ -26,7 +26,7 @@ usersController.get('/', validateAuthorization, validateErrorsMiddleware, async 
 usersController.post('/', validateAuthorization, validateUsersRequests, validateErrorsMiddleware, async (req: Request, res: Response) => {
     const newUser: OutputUserType | null = await usersService.createUser(req.body.login, req.body.email, req.body.password);
     if (newUser) {
-        users.push(newUser as any);
+        users.push(newUser);
         res.status(CodeResponsesEnum.Created_201).send(newUser);
     }
 });
